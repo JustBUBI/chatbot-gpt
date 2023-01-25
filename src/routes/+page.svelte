@@ -14,15 +14,17 @@
 	let input: string = '';
 
 	function submitText() {
-		if (input != '') {
+		if (input.trim() != '') {
 			const userMessage = { text: input, isBot: false, isLoading: false };
 			const botMessage = { text: '', isBot: true, isLoading: true, input };
 			messages.update((arr) => [...arr, userMessage, botMessage]);
 			input = '';
+		}
+	}
 
-			// to focus scroll to the bottom
-			let container = document.getElementById('chat_container');
-			if (container) container.scrollTop = container.scrollHeight;
+	function handleKeyPress(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			submitText();
 		}
 	}
 </script>
@@ -36,7 +38,11 @@
 	</div>
 
 	<!-- Input section -->
-	<form class="w-full px-4 mx-auto my-2 flex gap-2" on:submit|preventDefault={submitText}>
+	<form
+		class="w-full px-4 mx-auto my-2 flex gap-2"
+		on:submit|preventDefault={submitText}
+		on:keydown={handleKeyPress}
+	>
 		<div class="relative w-full">
 			<textarea
 				bind:value={input}

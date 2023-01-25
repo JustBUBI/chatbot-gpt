@@ -26,6 +26,9 @@
 			if (index < text.length) {
 				message.text += text.charAt(index);
 				index++;
+
+				// to focus scroll to the bottom
+				window.scrollTo(0, document.body.scrollHeight);
 			} else {
 				clearInterval(interval);
 			}
@@ -34,7 +37,7 @@
 
 	async function fetchBotResponse() {
 		if (message.input) {
-			const response = await fetch('http://localhost:5173/', {
+			const response = await fetch('/', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -54,7 +57,7 @@
 				const err = await response.text();
 
 				message.text = 'Something went wrong';
-				alert(err);
+				console.error(err);
 			}
 		}
 	}
